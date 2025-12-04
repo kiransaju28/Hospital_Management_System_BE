@@ -12,7 +12,7 @@ class Staff(models.Model):
     staff_id = models.AutoField(primary_key=True)
     # From tblstaff
     # This links your staff profile to a Django login User
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     full_name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
