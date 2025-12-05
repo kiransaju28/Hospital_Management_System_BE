@@ -76,7 +76,6 @@ def validate_doctor_required_fields(data):
     """
     If role = Doctor, ensure the required fields exist:
     - consultation_fee
-    - designation
     - availability
     - specialization
     """
@@ -84,7 +83,6 @@ def validate_doctor_required_fields(data):
 
     required_fields = [
         "consultation_fee",
-        "designation",
         "availability",
         "specialization",
     ]

@@ -29,7 +29,6 @@ class UserRegistrationSerializer(serializers.Serializer):
     mobile_number = serializers.CharField()
 
     consultation_fee = serializers.IntegerField(required=False)
-    designation = serializers.CharField(required=False, allow_blank=True)
     availability = serializers.CharField(required=False, allow_blank=True)
     specialization = serializers.PrimaryKeyRelatedField(
         queryset=Specialization.objects.all(),
@@ -76,12 +75,20 @@ class UserRegistrationSerializer(serializers.Serializer):
             Doctor.objects.create(
                 staff=staff,
                 consultation_fee=validated_data["consultation_fee"],
-                designation=validated_data.get("designation", ""),
                 specialization=validated_data["specialization"],
                 availability=validated_data.get("availability", ""),
             )
 
-        return user
+        # Return a dictionary representation instead of the User object
+        # This avoids the AttributeError because the User model doesn't have a 'role' attribute
+        return {
+            "username": user.username,
+            "role": role_name,
+            "full_name": staff.full_name,
+            "gender": staff.gender,
+            "joining_date": staff.joining_date,
+            "mobile_number": staff.mobile_number,
+        }
 
 
 # ==========================================================
@@ -125,7 +132,6 @@ class DoctorSerializer(serializers.ModelSerializer):
             "doctor_id",
             "staff",
             "consultation_fee",
-            "designation",
             "availability",
             "specialization",
         ]

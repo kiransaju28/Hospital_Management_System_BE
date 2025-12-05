@@ -27,7 +27,7 @@ class StaffViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Staff.objects.all()
     serializer_class = StaffSerializer
-    permission_classes = [IsAdmin]
+    permission_classes = [AllowAny]
 
 
 class DoctorViewSet(viewsets.ReadOnlyModelViewSet):
@@ -36,7 +36,7 @@ class DoctorViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
-    permission_classes = [IsAdmin]
+    permission_classes = [AllowAny]
 
 
 class SpecializationViewSet(viewsets.ModelViewSet):
@@ -45,4 +45,4 @@ class SpecializationViewSet(viewsets.ModelViewSet):
     """
     queryset = Specialization.objects.all()
     serializer_class = SpecializationSerializer
-    permission_classes = [IsAdmin]
+    permission_classes = [AllowAny]

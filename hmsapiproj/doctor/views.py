@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny
 
 from admins.permissions import IsDoctor
 from .models import (
@@ -24,7 +25,7 @@ from receptionist.serializers import AppointmentSerializer   # FIXED
 # TODAY'S APPOINTMENTS
 # --------------------------
 class TodayAppointmentsViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = [IsDoctor]
+    permission_classes = [AllowAny]
     serializer_class = AppointmentSerializer
 
     def get_queryset(self):
@@ -37,7 +38,7 @@ class TodayAppointmentsViewSet(viewsets.ReadOnlyModelViewSet):
 # BASIC VITALS
 # --------------------------
 class BasicVitalsViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsDoctor]
+    permission_classes = [AllowAny]
     queryset = BasicVitals.objects.all()
     serializer_class = BasicVitalsSerializer
 
@@ -46,7 +47,7 @@ class BasicVitalsViewSet(viewsets.ModelViewSet):
 # CONSULTATION
 # --------------------------
 class ConsultationViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsDoctor]
+    permission_classes = [AllowAny]
     queryset = Consultation.objects.all()
     serializer_class = ConsultationSerializer
 
@@ -55,7 +56,7 @@ class ConsultationViewSet(viewsets.ModelViewSet):
 # PRESCRIPTION
 # --------------------------
 class PrescriptionItemViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsDoctor]
+    permission_classes = [AllowAny]
     queryset = PrescriptionItem.objects.all()
     serializer_class = PrescriptionItemSerializer
 
@@ -64,6 +65,6 @@ class PrescriptionItemViewSet(viewsets.ModelViewSet):
 # LAB TEST ORDER
 # --------------------------
 class LabTestOrderViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsDoctor]
+    permission_classes = [AllowAny]
     queryset = LabTestOrder.objects.all()
     serializer_class = LabTestOrderSerializer

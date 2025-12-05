@@ -1,4 +1,5 @@
 from rest_framework import viewsets, filters
+from rest_framework.permissions import AllowAny
 from .models import Patient, Appointment, ConsultationBill
 from .serializers import (
     PatientSerializer,
@@ -10,7 +11,7 @@ from admins.permissions import Isreceptionist
 
 
 class PatientViewSet(viewsets.ModelViewSet):
-    permission_classes = [Isreceptionist]
+    permission_classes = [AllowAny]
     queryset = Patient.objects.all().order_by("Patient_id")
     serializer_class = PatientSerializer
 
@@ -19,7 +20,7 @@ class PatientViewSet(viewsets.ModelViewSet):
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):
-    permission_classes = [Isreceptionist]
+    permission_classes = [AllowAny]
     queryset = Appointment.objects.all().order_by("Appointment_id")
     serializer_class = AppointmentSerializer
 
@@ -28,7 +29,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
 
 class ConsultationBillViewSet(viewsets.ModelViewSet):
-    permission_classes = [Isreceptionist]
+    permission_classes = [AllowAny]
     queryset = ConsultationBill.objects.all().order_by("ConsultationBill_id")
     serializer_class = ConsultationBillSerializer
 
