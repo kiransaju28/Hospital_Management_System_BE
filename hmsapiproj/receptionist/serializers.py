@@ -79,7 +79,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
         doctor = attrs.get("doctor")
 
         # Ensure patient & doctor exist
-        if not Patient.objects.filter(id=patient.id).exists():
+        if not Patient.objects.filter(Patient_id=patient.Patient_id).exists():
             raise serializers.ValidationError("Patient does not exist.")
 
         if not Doctor.objects.filter(doctor_id=doctor.doctor_id).exists():
