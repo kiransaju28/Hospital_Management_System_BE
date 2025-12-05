@@ -21,16 +21,29 @@ class RegisterUserViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
 
-class StaffViewSet(viewsets.ReadOnlyModelViewSet):
+class StaffViewSet(viewsets.ModelViewSet):
     """
     View all staff (for admins).
+    Supports Create, Read, Update, Delete.
+    Deleting a staff member will also delete the associated User account.
     """
     queryset = Staff.objects.all()
     serializer_class = StaffSerializer
     permission_classes = [AllowAny]
 
+    def perform_destroy(self, instance):
+        # Delete the associated User. 
+        # Since Staff has on_delete=CASCADE on the user field, 
+        # deleting the User might delete the Staff, or we just delete the User.
+        # However, usually we want to remove the login access too.
+        user = instance.user
+        if user:
+            user.delete()
+        else:
+            instance.delete()
 
-class DoctorViewSet(viewsets.ReadOnlyModelViewSet):
+
+class DoctorViewSet(viewsets.ModelViewSet):
     """
     View all doctors (for admins).
     """
