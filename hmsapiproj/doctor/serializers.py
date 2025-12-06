@@ -19,7 +19,6 @@ class BasicVitalsSerializer(serializers.ModelSerializer):
     class Meta:
         model = BasicVitals
         fields = "__all__"
-        read_only_fields = ["appointment"]
 
 
 # --------------------------
@@ -29,7 +28,6 @@ class ConsultationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Consultation
         fields = "__all__"
-        read_only_fields = ["appointment", "vitals"]
 
 
 # --------------------------

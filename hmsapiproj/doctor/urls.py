@@ -7,6 +7,8 @@ from .views import (
     ConsultationViewSet,
     PrescriptionItemViewSet,
     LabTestOrderViewSet,
+    PharmacistMedicineViewSet,
+    LabTestCategoryViewSet,
 )
 
 router = DefaultRouter()
@@ -15,6 +17,8 @@ router.register(r"basic-vitals", BasicVitalsViewSet)
 router.register(r"consultations", ConsultationViewSet)
 router.register(r"prescription-items", PrescriptionItemViewSet)
 router.register(r"lab-test-orders", LabTestOrderViewSet)
+router.register(r"pharmacist/medicines", PharmacistMedicineViewSet, basename="doctor-medicines")
+router.register(r"labtech/tests", LabTestCategoryViewSet, basename="doctor-lab-tests")
 
 urlpatterns = [
     path("", include(router.urls)),

@@ -37,7 +37,7 @@ class Islabtech(permissions.BasePermission):
         )
 
 
-class Isreceptionist(permissions.BasePermission):
+class IsReceptionist(permissions.BasePermission):
     """
     Allows access only to users in the 'receptionist' group.
     """

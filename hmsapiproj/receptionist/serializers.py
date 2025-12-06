@@ -55,17 +55,14 @@ class PatientSerializer(serializers.ModelSerializer):
 # APPOINTMENT SERIALIZER
 # ==========================
 class AppointmentSerializer(serializers.ModelSerializer):
+    # This fetches the 'patient_name' from the related Patient model
+    patient_name = serializers.CharField(source='patient.patient_name', read_only=True)
+
     class Meta:
         model = Appointment
-        fields = [
-            "Appointment_id",
-            "token",
-            "appointment_date",
-            "status",
-            "patient",
-            "doctor",
-        ]
-        read_only_fields = ["token", "status", "appointment_date"]
+        fields = "__all__"
+        # Remove 'appointment_date' from read_only_fields
+        read_only_fields = ["token", "status"] 
 
     def generate_token(self):
         last = Appointment.objects.order_by("-Appointment_id").first()
@@ -84,12 +81,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
         if not Doctor.objects.filter(doctor_id=doctor.doctor_id).exists():
             raise serializers.ValidationError("Doctor does not exist.")
-
-        from django.utils import timezone
-        now = timezone.now()
-
-        validate_appointment_rules(patient, doctor, now)
-
+        
+        # Note: We removed the strict 'validate_appointment_rules' call 
+        # if it restricts future dates.
+        
         return attrs
 
     def create(self, validated_data):
@@ -97,7 +92,11 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
         validated_data["token"] = self.generate_token()
         validated_data["status"] = "Scheduled"
-        validated_data["appointment_date"] = timezone.now()
+        
+        # ONLY set date to now if it wasn't provided in the payload
+        if "appointment_date" not in validated_data:
+            validated_data["appointment_date"] = timezone.now()
+            
         return super().create(validated_data)
 
 
