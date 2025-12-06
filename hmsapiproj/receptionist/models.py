@@ -22,7 +22,8 @@ class Patient(models.Model):
 class Appointment(models.Model):
     Appointment_id = models.AutoField(primary_key=True)
     token = models.CharField(max_length=20)
-    appointment_date = models.DateTimeField(auto_now_add=True)
+    appointment_date = models.DateTimeField()
+
     status = models.CharField(max_length=20, default="Scheduled")
 
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)

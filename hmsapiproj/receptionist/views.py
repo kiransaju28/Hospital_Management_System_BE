@@ -7,7 +7,7 @@ from .serializers import (
     ConsultationBillSerializer,
 )
 
-from admins.permissions import Isreceptionist
+from admins.permissions import IsReceptionist
 
 
 class PatientViewSet(viewsets.ModelViewSet):

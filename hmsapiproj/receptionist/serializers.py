@@ -62,7 +62,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
         model = Appointment
         fields = "__all__"
         # Remove 'appointment_date' from read_only_fields
-        read_only_fields = ["token", "status"] 
+        read_only_fields = ["token"] 
 
     def generate_token(self):
         last = Appointment.objects.order_by("-Appointment_id").first()
