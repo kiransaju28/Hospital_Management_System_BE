@@ -24,15 +24,15 @@ from doctor.serializers import LabTestOrderSerializer
 
 
 # --------------------------
-# CATEGORY (READ ONLY)
+# CATEGORY
 # --------------------------
-class LabTestCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+class LabTestCategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     queryset = LabTestCategory.objects.all()
     serializer_class = LabTestCategorySerializer
 
 
-class LabTestParameterViewSet(viewsets.ReadOnlyModelViewSet):
+class LabTestParameterViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     queryset = LabTestParameter.objects.all()
     serializer_class = LabTestParameterSerializer
