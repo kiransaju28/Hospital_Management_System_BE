@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Patient, Appointment, ConsultationBill
 from admins.models import Doctor
+from doctor.models import Consultation
 
 from .validations import (
     validate_blood_group,
@@ -130,8 +131,19 @@ class ConsultationBillSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         appointment = validated_data["appointment"]
 
+        # Ensure a Consultation exists so the ID is not null
+        consultation, _ = Consultation.objects.get_or_create(
+            appointment=appointment,
+            defaults={
+                "symptoms": "",
+                "diagnosis": "",
+                "notes": "",
+            }
+        )
+
         bill = ConsultationBill.objects.create(
             appointment=appointment,
+            consultation=consultation,
             patient=appointment.patient,
             amount=appointment.doctor.consultation_fee,
         )

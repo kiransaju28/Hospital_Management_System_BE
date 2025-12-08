@@ -57,6 +57,14 @@ class LabReportResultSerializer(serializers.ModelSerializer):
 class LabReportSerializer(serializers.ModelSerializer):
     results = LabReportResultSerializer(many=True, read_only=True)
     category_name = serializers.CharField(source="category.category_name", read_only=True)
+    patient_name = serializers.CharField(
+        source="order.consultation.appointment.patient.patient_name", 
+        read_only=True
+    )
+    patient_id = serializers.IntegerField(
+        source="order.consultation.appointment.patient.Patient_id",
+        read_only=True
+    )
 
     class Meta:
         model = LabReport
