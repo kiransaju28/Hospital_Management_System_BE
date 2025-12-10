@@ -3,6 +3,8 @@ from rest_framework.permissions import AllowAny
 from admins.permissions import IsPharmacist
 from .models import Medicine, pharmacistBill
 from .serializers import MedicineSerializer, pharmacistBillSerializer
+from admins.permissions import IsAdmin,IsDoctor
+
 
 # --- Import Doctor models for the workflow ---
 from doctor.models import Consultation
@@ -14,7 +16,7 @@ class MedicineViewSet(viewsets.ModelViewSet):
     Manage Inventory (Add/Edit/Delete medicines).
     Only Pharmacists can do this.
     """
-    permission_classes = [AllowAny]
+    permission_classes = [IsPharmacist | IsAdmin|IsDoctor]
     queryset = Medicine.objects.all()
     serializer_class = MedicineSerializer
     filter_backends = [filters.SearchFilter]
@@ -27,7 +29,7 @@ class PendingPrescriptionViewSet(viewsets.ReadOnlyModelViewSet):
     ('fulfill_pharmacist_internally'=True) but they haven't been billed yet.
     This is the Pharmacist's "To-Do List".
     """
-    permission_classes = [AllowAny]
+    permission_classes = [IsPharmacist | IsAdmin|IsDoctor]
     serializer_class = ConsultationSerializer  # Re-use the doctor's serializer to see the meds
 
     def get_queryset(self):
@@ -49,7 +51,7 @@ class pharmacistBillViewSet(viewsets.ModelViewSet):
     Generate Bills.
     When a bill is created, it automatically subtracts stock (via Serializer).
     """
-    permission_classes = [AllowAny]
+    permission_classes = [IsPharmacist | IsAdmin|IsDoctor]
     queryset = pharmacistBill.objects.all().order_by('pharmacistBill_id')
     serializer_class = pharmacistBillSerializer
     filter_backends = [filters.SearchFilter]

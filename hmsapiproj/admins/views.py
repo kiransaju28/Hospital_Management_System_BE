@@ -9,7 +9,7 @@ from .serializers import (
     UserRegistrationSerializer,
 )
 
-from .permissions import IsAdmin
+from .permissions import IsAdmin, IsDoctor, IsReceptionist
 
 
 class RegisterUserViewSet(viewsets.ModelViewSet):
@@ -18,7 +18,7 @@ class RegisterUserViewSet(viewsets.ModelViewSet):
     """
     queryset = Staff.objects.all()
     serializer_class = UserRegistrationSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdmin]
 
 
 class StaffViewSet(viewsets.ModelViewSet):
@@ -29,7 +29,7 @@ class StaffViewSet(viewsets.ModelViewSet):
     """
     queryset = Staff.objects.all()
     serializer_class = StaffSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdmin]
 
     def perform_destroy(self, instance):
         # Delete the associated User. 
@@ -49,7 +49,7 @@ class DoctorViewSet(viewsets.ModelViewSet):
     """
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdmin | IsDoctor | IsReceptionist]
 
 
 class SpecializationViewSet(viewsets.ModelViewSet):
@@ -58,4 +58,4 @@ class SpecializationViewSet(viewsets.ModelViewSet):
     """
     queryset = Specialization.objects.all()
     serializer_class = SpecializationSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdmin]

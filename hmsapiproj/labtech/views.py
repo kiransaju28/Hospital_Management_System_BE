@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from admins.permissions import Islabtech
+from admins.permissions import IsAdmin, IsReceptionist,IsDoctor
+
 
 from .models import (
     LabTestCategory,
@@ -27,13 +29,13 @@ from doctor.serializers import LabTestOrderSerializer
 # CATEGORY
 # --------------------------
 class LabTestCategoryViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [Islabtech | IsAdmin]
     queryset = LabTestCategory.objects.all()
     serializer_class = LabTestCategorySerializer
 
 
 class LabTestParameterViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [Islabtech | IsAdmin]
     queryset = LabTestParameter.objects.all()
     serializer_class = LabTestParameterSerializer
 
@@ -42,7 +44,7 @@ class LabTestParameterViewSet(viewsets.ModelViewSet):
 # PENDING TEST ORDERS
 # --------------------------
 class PendingLabTestsViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [Islabtech | IsAdmin]
     queryset = LabTestOrder.objects.all()
     serializer_class = LabTestOrderSerializer
 
@@ -51,13 +53,13 @@ class PendingLabTestsViewSet(viewsets.ReadOnlyModelViewSet):
 # LAB REPORT
 # --------------------------
 class LabReportViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [Islabtech | IsAdmin|IsDoctor]
     queryset = LabReport.objects.all()
     serializer_class = LabReportSerializer
 
 
 class LabReportResultViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [Islabtech | IsAdmin|IsDoctor]
     queryset = LabReportResult.objects.all()
     serializer_class = LabReportResultSerializer
 
@@ -66,12 +68,12 @@ class LabReportResultViewSet(viewsets.ModelViewSet):
 # LAB BILL
 # --------------------------
 class LabBillViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [Islabtech | IsAdmin | IsReceptionist]
     queryset = LabBill.objects.all()
     serializer_class = LabBillSerializer
 
 
 class LabBillItemViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [Islabtech | IsAdmin | IsReceptionist]
     queryset = LabBillItem.objects.all()
     serializer_class = LabBillItemSerializer

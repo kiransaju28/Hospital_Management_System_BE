@@ -4,13 +4,15 @@ from rest_framework import permissions
 
 class IsAdmin(permissions.BasePermission):
     """
-    Allows access only to users in the 'Admin' group.
+    Allows access to users in the 'Admin' group OR superusers.
     """
     def has_permission(self, request, view):
-        # The user must be logged in AND in the 'Admin' group.
         return (
             request.user.is_authenticated
-            and request.user.groups.filter(name='Admin').exists()
+            and (
+                request.user.is_superuser
+                or request.user.groups.filter(name='Admin').exists()
+            )
         )
 
 

@@ -6,12 +6,12 @@ from .serializers import (
     AppointmentSerializer,
     ConsultationBillSerializer,
 )
-
-from admins.permissions import IsReceptionist
+from admins.permissions import IsAdmin
+from admins.permissions import IsReceptionist, Islabtech
 
 
 class PatientViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsReceptionist | IsAdmin | Islabtech]
     queryset = Patient.objects.all().order_by("Patient_id")
     serializer_class = PatientSerializer
 
@@ -20,7 +20,7 @@ class PatientViewSet(viewsets.ModelViewSet):
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsReceptionist | IsAdmin | Islabtech]
     queryset = Appointment.objects.all().order_by("Appointment_id")
     serializer_class = AppointmentSerializer
 
@@ -29,7 +29,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
 
 class ConsultationBillViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsReceptionist | IsAdmin | Islabtech]
     queryset = ConsultationBill.objects.all().order_by("ConsultationBill_id")
     serializer_class = ConsultationBillSerializer
 

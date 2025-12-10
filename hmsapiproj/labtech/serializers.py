@@ -88,6 +88,7 @@ class LabBillItemSerializer(serializers.ModelSerializer):
 
 class LabBillSerializer(serializers.ModelSerializer):
     items = LabBillItemSerializer(many=True)
+    patient_name = serializers.CharField(source="patient.patient_name", read_only=True)
 
     class Meta:
         model = LabBill

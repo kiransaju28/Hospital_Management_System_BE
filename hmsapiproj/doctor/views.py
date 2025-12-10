@@ -2,8 +2,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
-
-from admins.permissions import IsDoctor
+from admins.permissions import IsAdmin, IsDoctor,Islabtech
 from .models import (
     BasicVitals,
     Consultation,
@@ -25,7 +24,7 @@ from receptionist.serializers import AppointmentSerializer   # FIXED
 # TODAY'S APPOINTMENTS
 # --------------------------
 class TodayAppointmentsViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = [IsDoctor]
+    permission_classes = [IsDoctor | IsAdmin]
     serializer_class = AppointmentSerializer
 
     def get_queryset(self):
@@ -41,7 +40,7 @@ class TodayAppointmentsViewSet(viewsets.ReadOnlyModelViewSet):
 # BASIC VITALS
 # --------------------------
 class BasicVitalsViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsDoctor | IsAdmin]
     queryset = BasicVitals.objects.all()
     serializer_class = BasicVitalsSerializer
 
@@ -50,7 +49,7 @@ class BasicVitalsViewSet(viewsets.ModelViewSet):
 # CONSULTATION
 # --------------------------
 class ConsultationViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsDoctor | IsAdmin]
     queryset = Consultation.objects.all()
     serializer_class = ConsultationSerializer
 
@@ -59,7 +58,7 @@ class ConsultationViewSet(viewsets.ModelViewSet):
 # PRESCRIPTION
 # --------------------------
 class PrescriptionItemViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsDoctor | IsAdmin]
     queryset = PrescriptionItem.objects.all()
     serializer_class = PrescriptionItemSerializer
 
@@ -68,7 +67,7 @@ class PrescriptionItemViewSet(viewsets.ModelViewSet):
 # LAB TEST ORDER
 # --------------------------
 class LabTestOrderViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsDoctor | IsAdmin |Islabtech]
     queryset = LabTestOrder.objects.all()
     serializer_class = LabTestOrderSerializer
 
@@ -82,11 +81,11 @@ from labtech.models import LabTestCategory
 from labtech.serializers import LabTestCategorySerializer
 
 class PharmacistMedicineViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = [IsDoctor]
+    permission_classes = [IsDoctor | IsAdmin|Islabtech]
     queryset = Medicine.objects.all()
     serializer_class = MedicineSerializer
 
 class LabTestCategoryViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = [IsDoctor]
+    permission_classes = [IsDoctor | IsAdmin|Islabtech]
     queryset = LabTestCategory.objects.all()
     serializer_class = LabTestCategorySerializer
