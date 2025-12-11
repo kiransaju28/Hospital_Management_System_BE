@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'hmsapiproj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hms_api_proj_2025',
+        'NAME': 'hms_project',
         'USER':'root',
         'PASSWORD':'Password@123',
         'HOST':'localhost',

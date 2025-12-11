@@ -60,3 +60,5 @@ class LabBillItem(models.Model):
 
     def __str__(self):
         return f"{self.test.category_name} - {self.subtotal}"
+
+

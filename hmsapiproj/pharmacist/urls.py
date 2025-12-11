@@ -4,6 +4,7 @@ from .views import (
     MedicineViewSet,
     pharmacistBillViewSet,
     PendingPrescriptionViewSet,  # <-- To-Do list
+    MedicineStockViewSet,
 )
 
 router = DefaultRouter()
@@ -14,6 +15,7 @@ router.register(
     PendingPrescriptionViewSet,
     basename='pending-prescriptions'
 )
+router.register(r'medicine-stock', MedicineStockViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
