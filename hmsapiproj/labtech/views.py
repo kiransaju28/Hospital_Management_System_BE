@@ -29,13 +29,13 @@ from doctor.serializers import LabTestOrderSerializer
 # CATEGORY
 # --------------------------
 class LabTestCategoryViewSet(viewsets.ModelViewSet):
-    permission_classes = [Islabtech | IsAdmin]
+    permission_classes = [Islabtech | IsAdmin|IsDoctor]
     queryset = LabTestCategory.objects.all()
     serializer_class = LabTestCategorySerializer
 
 
 class LabTestParameterViewSet(viewsets.ModelViewSet):
-    permission_classes = [Islabtech | IsAdmin]
+    permission_classes = [Islabtech | IsAdmin|IsDoctor]
     queryset = LabTestParameter.objects.all()
     serializer_class = LabTestParameterSerializer
 
